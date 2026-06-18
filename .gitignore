@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Datos pesados
+*.csv
+*.xlsx
+*.parquet
+*.db
+
+# Variables de entorno y claves
+.env
+
