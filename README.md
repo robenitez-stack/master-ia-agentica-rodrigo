@@ -1,4 +1,4 @@
-# Máster en IA Agéntica
+# Máster en Ingeniería de Automatización con IA Agéntica
 
 Repositorio de Rodrigo Benítez para los trabajos prácticos del Máster en Ingeniería de Automatización con IA Agéntica.
 
