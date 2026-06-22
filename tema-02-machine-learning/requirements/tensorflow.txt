@@ -1,0 +1,4 @@
+# Las versiones se fijarán después de validar la instalación en Python 3.10.
+tensorflow
+keras
+

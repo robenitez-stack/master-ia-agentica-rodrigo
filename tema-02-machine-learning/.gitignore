@@ -1,0 +1,18 @@
+# Dataset cache shared by the Tema 2 notebooks
+.data/
+
+# Model weights and checkpoints (regenerable and potentially large)
+**/checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.keras
+*.h5
+
+# Temporary fast-run notebooks
+**/notebook_executed.fast.ipynb
+**/experiments/fast/
+**/run_summary.fast.json
+**/environment.fast.txt
+**/README.fast.md
+
