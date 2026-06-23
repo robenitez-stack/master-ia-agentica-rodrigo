@@ -1,0 +1,18 @@
+{
+  "timestamp_utc": "2026-06-23T21:11:33.351985+00:00",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "python": "3.10.9 | packaged by Anaconda, Inc. | (main, Mar  1 2023, 18:18:15) [MSC v.1916 64 bit (AMD64)]",
+  "libraries": {
+    "matplotlib": "3.10.9",
+    "nbformat": "5.10.4",
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.7.2",
+    "torch": "2.5.1+cpu"
+  },
+  "device": {
+    "selected": "cpu",
+    "cuda_available": false,
+    "mps_available": false
+  }
+}

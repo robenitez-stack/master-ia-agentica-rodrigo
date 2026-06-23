@@ -16,3 +16,5 @@
 **/environment.fast.txt
 **/README.fast.md
 
+# Los CSV de resultados full son artefactos académicos publicables.
+!**/results/**/experiments/full/**/*.csv
