@@ -305,10 +305,39 @@ def validate_nb03_02(mode: str) -> list[str]:
     return errors
 
 
+def validate_nb03_03(mode: str) -> list[str]:
+    module = TEMA2 / "03-redes-multicapa-convolucionales-vision"
+    result_dir = module / "results" / "03_cnn_mnist_pytorch_base"
+    canonical = module / "notebooks" / "03_cnn_mnist_pytorch_base.ipynb"
+    executed = result_dir / ("notebook_executed.fast.ipynb" if mode == "fast" else "notebook_executed.ipynb")
+    summary_path = result_dir / ("run_summary.fast.json" if mode == "fast" else "run_summary.json")
+    errors = validate_notebook(canonical, False)
+    if not executed.exists(): errors.append(f"Falta notebook ejecutado: {executed}")
+    else: errors.extend(validate_notebook(executed, True))
+    if not summary_path.exists(): return errors + [f"Falta resumen: {summary_path}"]
+    summary=json.loads(summary_path.read_text(encoding="utf-8"))
+    if summary.get("notebook_id")!="03-03": errors.append("notebook_id inconsistente en 03-03")
+    if summary.get("run_mode")!=mode: errors.append("run_mode inconsistente en 03-03")
+    if summary.get("publishable") is not (mode=="full"): errors.append("publishable inconsistente en 03-03")
+    exp=result_dir/"experiments"/mode/"mnist_cnn_base"
+    required={"metrics.json","training_history.csv","classification_report.csv","learning_curves.png","confusion_matrix.png","sample_predictions.png","misclassified_examples.png"}
+    missing=[x for x in required if not (exp/x).exists()]
+    if missing: errors.append(f"Artefactos ausentes en 03-03: {missing}")
+    else:
+        metrics=json.loads((exp/"metrics.json").read_text(encoding="utf-8"))
+        if len(metrics.get("classes",[]))!=10: errors.append("03-03 debe registrar diez clases")
+        for key in ["test_accuracy","test_precision","test_recall","test_f1"]:
+            value=metrics.get(key)
+            if value is None or not 0<=value<=1: errors.append(f"Métrica inválida 03-03.{key}: {value}")
+    return errors
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--notebook-id", choices=["02-01", "02-02", "03-01", "03-02"], required=True
+        "--notebook-id",
+        choices=["02-01", "02-02", "03-01", "03-02", "03-03"],
+        required=True,
     )
     parser.add_argument("--mode", choices=["fast", "full"], required=True)
     args = parser.parse_args()
@@ -328,8 +357,10 @@ def main() -> int:
         errors.extend(validate_nb02(args.mode))
     elif args.notebook_id == "03-01":
         errors.extend(validate_nb03_01(args.mode))
-    else:
+    elif args.notebook_id == "03-02":
         errors.extend(validate_nb03_02(args.mode))
+    else:
+        errors.extend(validate_nb03_03(args.mode))
 
     if errors:
         print("VALIDATION_FAILED")
