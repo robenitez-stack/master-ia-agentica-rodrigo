@@ -137,9 +137,68 @@ def validate_nb01(mode: str) -> list[str]:
     return errors
 
 
+def validate_nb02(mode: str) -> list[str]:
+    errors = []
+    notebook_dir = TEMA2 / "02-deep-learning-redes-neuronales" / "notebooks"
+    result_dir = MODULE2_RESULTS / "02_red_neuronal_desde_cero_pytorch"
+    canonical = notebook_dir / "02_red_neuronal_desde_cero_pytorch.ipynb"
+    executed_name = "notebook_executed.fast.ipynb" if mode == "fast" else "notebook_executed.ipynb"
+    summary_name = "run_summary.fast.json" if mode == "fast" else "run_summary.json"
+    executed = result_dir / executed_name
+    summary_path = result_dir / summary_name
+
+    errors.extend(validate_notebook(canonical, require_outputs=False))
+    if not executed.exists():
+        errors.append(f"Falta notebook ejecutado: {executed}")
+    else:
+        errors.extend(validate_notebook(executed, require_outputs=True))
+    if not summary_path.exists():
+        errors.append(f"Falta resumen: {summary_path}")
+        return errors
+
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    if summary.get("run_mode") != mode:
+        errors.append("run_mode inconsistente en run_summary 02-02")
+    if summary.get("publishable") is not (mode == "full"):
+        errors.append("publishable inconsistente en run_summary 02-02")
+    if summary.get("status") != "COMPLETED":
+        errors.append("La ejecución 02-02 no figura como COMPLETED")
+    if len(summary.get("experiments", [])) != 3:
+        errors.append("02-02 debe registrar exactamente tres experimentos")
+
+    required_keys = {
+        "experiment_id", "model_type", "classes", "train_samples",
+        "validation_samples", "test_samples", "parameters", "training_seconds",
+        "best_validation_accuracy", "test_accuracy", "test_precision",
+        "test_recall", "test_f1", "test_balanced_accuracy", "test_specificity",
+    }
+    required_artifacts = {
+        "metrics.json", "training_history.csv", "learning_curves.png",
+        "confusion_matrix.png", "classification_report.csv",
+        "sample_predictions.png", "misclassified_examples.png",
+        "validation_candidates.csv",
+    }
+    run_dir = result_dir / "experiments" / mode
+    for experiment_id in summary.get("experiments", []):
+        experiment_dir = run_dir / experiment_id
+        missing = [name for name in required_artifacts if not (experiment_dir / name).exists()]
+        if missing:
+            errors.append(f"Artefactos ausentes en {experiment_id}: {missing}")
+            continue
+        metrics = json.loads((experiment_dir / "metrics.json").read_text(encoding="utf-8"))
+        absent = required_keys - metrics.keys()
+        if absent:
+            errors.append(f"Métricas ausentes en {experiment_id}: {sorted(absent)}")
+        for key in ["test_accuracy", "test_precision", "test_recall", "test_f1"]:
+            value = metrics.get(key)
+            if value is None or not 0 <= value <= 1:
+                errors.append(f"Métrica inválida {experiment_id}.{key}: {value}")
+    return errors
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--notebook-id", choices=["02-01"], required=True)
+    parser.add_argument("--notebook-id", choices=["02-01", "02-02"], required=True)
     parser.add_argument("--mode", choices=["fast", "full"], required=True)
     args = parser.parse_args()
 
@@ -152,7 +211,10 @@ def main() -> int:
         TEMA2 / "MODULE1_SHA256SUMS.txt",
         TEMA2,
     ))
-    errors.extend(validate_nb01(args.mode))
+    if args.notebook_id == "02-01":
+        errors.extend(validate_nb01(args.mode))
+    else:
+        errors.extend(validate_nb02(args.mode))
 
     if errors:
         print("VALIDATION_FAILED")

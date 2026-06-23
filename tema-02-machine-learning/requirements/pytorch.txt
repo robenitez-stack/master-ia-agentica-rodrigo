@@ -1,4 +1,4 @@
-# Las versiones se fijarán después de validar la instalación en Python 3.10.
-torch
-torchvision
-
+# Versiones CPU verificadas en Python 3.10
+--index-url https://download.pytorch.org/whl/cpu
+torch==2.5.1+cpu
+torchvision==0.20.1+cpu
