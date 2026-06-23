@@ -1,0 +1,7 @@
+platform=Windows-10-10.0.19045-SP0
+python=3.10.9 | packaged by Anaconda, Inc. | (main, Mar  1 2023, 18:18:15) [MSC v.1916 64 bit (AMD64)]
+numpy=2.2.6
+pandas=2.3.3
+matplotlib=3.10.9
+scikit-learn=1.7.2
+device=cpu

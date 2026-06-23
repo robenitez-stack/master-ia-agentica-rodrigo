@@ -1,0 +1,31 @@
+{
+  "experiment_id": "mnist_0_vs_1",
+  "task": "binary_classification",
+  "classes": [
+    "0",
+    "1"
+  ],
+  "positive_class": "1",
+  "train_samples": 10132,
+  "validation_samples": 2533,
+  "test_samples": 2115,
+  "epochs_or_iterations_completed": 25,
+  "best_epoch_or_iteration": 25,
+  "parameters": 785,
+  "training_seconds": 3.064617099997122,
+  "selected_learning_rate": 0.1,
+  "best_validation_accuracy": 0.9980260560600079,
+  "test_accuracy": 0.9995271867612293,
+  "test_precision": 0.9991197183098591,
+  "test_recall": 1.0,
+  "test_f1": 0.9995596653456627,
+  "test_macro_precision": 0.9995598591549295,
+  "test_macro_recall": 0.9994897959183673,
+  "test_macro_f1": 0.9995246004114735,
+  "test_balanced_accuracy": 0.9994897959183673,
+  "test_specificity": 0.9989795918367347,
+  "true_negatives": 979,
+  "false_positives": 1,
+  "false_negatives": 0,
+  "true_positives": 1135
+}
