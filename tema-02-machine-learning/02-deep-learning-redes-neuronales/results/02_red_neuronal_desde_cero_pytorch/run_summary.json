@@ -1,0 +1,22 @@
+{
+  "notebook_id": "02-02",
+  "source_notebook": "1_red_neuronal_desde_cero.ipynb",
+  "canonical_notebook": "02_red_neuronal_desde_cero_pytorch.ipynb",
+  "module": "02-deep-learning-redes-neuronales",
+  "status": "COMPLETED",
+  "run_mode": "full",
+  "publishable": true,
+  "seed": 42,
+  "device": "cpu",
+  "frameworks": [
+    "pytorch"
+  ],
+  "dataset": "MNIST",
+  "run_timestamp_utc": "2026-06-23T21:09:50.585380+00:00",
+  "git_commit": "84272ce808d05432c538d89b3f52eb8bbc139cb0",
+  "experiments": [
+    "neuron_mnist_0_vs_1",
+    "neuron_mnist_5_vs_6",
+    "mlp_mnist_5_vs_6"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "experiment_id": "mlp_mnist_5_vs_6",
+  "task": "binary_classification",
+  "model_type": "mlp",
+  "classes": [
+    "5",
+    "6"
+  ],
+  "positive_class": "6",
+  "train_samples": 9071,
+  "validation_samples": 2268,
+  "test_samples": 1850,
+  "epochs_or_iterations_completed": 12,
+  "best_epoch_or_iteration": 11,
+  "parameters": 100609,
+  "training_seconds": 28.08079949999228,
+  "selected_learning_rate": 0.003,
+  "best_validation_accuracy": 0.9938271604938271,
+  "test_accuracy": 0.9908108108108108,
+  "test_precision": 0.9895941727367326,
+  "test_recall": 0.9926931106471816,
+  "test_f1": 0.9911412193850964,
+  "test_macro_precision": 0.9908600784943505,
+  "test_macro_recall": 0.9907411741576715,
+  "test_macro_f1": 0.9907980100294376,
+  "test_balanced_accuracy": 0.9907411741576715,
+  "test_specificity": 0.9887892376681614,
+  "true_negatives": 882,
+  "false_positives": 10,
+  "false_negatives": 7,
+  "true_positives": 951
+}

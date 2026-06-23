@@ -1,0 +1,32 @@
+{
+  "experiment_id": "neuron_mnist_5_vs_6",
+  "task": "binary_classification",
+  "model_type": "neuron",
+  "classes": [
+    "5",
+    "6"
+  ],
+  "positive_class": "6",
+  "train_samples": 9071,
+  "validation_samples": 2268,
+  "test_samples": 1850,
+  "epochs_or_iterations_completed": 15,
+  "best_epoch_or_iteration": 15,
+  "parameters": 785,
+  "training_seconds": 17.580699599988293,
+  "selected_learning_rate": 0.1,
+  "best_validation_accuracy": 0.9775132275132276,
+  "test_accuracy": 0.9789189189189189,
+  "test_precision": 0.9771547248182763,
+  "test_recall": 0.9822546972860126,
+  "test_f1": 0.9796980739198334,
+  "test_macro_precision": 0.9789944988240198,
+  "test_macro_recall": 0.9787955100779839,
+  "test_macro_f1": 0.9788878227946554,
+  "test_balanced_accuracy": 0.9787955100779839,
+  "test_specificity": 0.9753363228699552,
+  "true_negatives": 870,
+  "false_positives": 22,
+  "false_negatives": 17,
+  "true_positives": 941
+}
