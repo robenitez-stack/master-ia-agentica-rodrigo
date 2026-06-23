@@ -1,6 +1,11 @@
 # Dataset cache shared by the Tema 2 notebooks
 .data/
 
+# Instrucciones internas para asistentes de código
+AGENTS.md
+INSTRUCCION*CODEX*.md
+*CODEX*INSTRUCCION*.md
+
 # Model weights and checkpoints (regenerable and potentially large)
 **/checkpoints/
 *.pt

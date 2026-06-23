@@ -82,7 +82,7 @@ def localizar_tema2() -> Path:
     cwd = Path.cwd().resolve()
     candidatos = [cwd, cwd / "tema-02-machine-learning", *cwd.parents]
     for candidato in candidatos:
-        if candidato.name == "tema-02-machine-learning" and (candidato / "AGENTS.md").exists():
+        if candidato.name == "tema-02-machine-learning" and (candidato / ".tema2-root").exists():
             return candidato
     raise FileNotFoundError("No se pudo localizar la raíz tema-02-machine-learning")
 

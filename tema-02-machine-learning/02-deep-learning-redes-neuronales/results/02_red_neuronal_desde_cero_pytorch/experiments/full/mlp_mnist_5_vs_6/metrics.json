@@ -13,7 +13,7 @@
   "epochs_or_iterations_completed": 12,
   "best_epoch_or_iteration": 11,
   "parameters": 100609,
-  "training_seconds": 28.08079949999228,
+  "training_seconds": 14.623658300028183,
   "selected_learning_rate": 0.003,
   "best_validation_accuracy": 0.9938271604938271,
   "test_accuracy": 0.9908108108108108,

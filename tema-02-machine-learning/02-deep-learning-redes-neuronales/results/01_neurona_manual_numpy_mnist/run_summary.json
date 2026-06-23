@@ -12,8 +12,8 @@
     "numpy"
   ],
   "dataset": "MNIST",
-  "run_timestamp_utc": "2026-06-23T20:57:27.128749+00:00",
-  "git_commit": "84272ce808d05432c538d89b3f52eb8bbc139cb0",
+  "run_timestamp_utc": "2026-06-23T21:34:50.922941+00:00",
+  "git_commit": "bc90b1d6a18f5a2fb47e03be53431d18f7549579",
   "experiments": [
     "mnist_0_vs_1",
     "mnist_5_vs_6"

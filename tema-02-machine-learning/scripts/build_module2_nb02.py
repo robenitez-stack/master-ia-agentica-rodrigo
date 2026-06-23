@@ -94,7 +94,7 @@ def elegir_dispositivo():
 def localizar_tema2():
     cwd = Path.cwd().resolve()
     for candidato in [cwd, cwd / "tema-02-machine-learning", *cwd.parents]:
-        if candidato.name == "tema-02-machine-learning" and (candidato / "AGENTS.md").exists():
+        if candidato.name == "tema-02-machine-learning" and (candidato / ".tema2-root").exists():
             return candidato
     raise FileNotFoundError("No se pudo localizar tema-02-machine-learning")
 

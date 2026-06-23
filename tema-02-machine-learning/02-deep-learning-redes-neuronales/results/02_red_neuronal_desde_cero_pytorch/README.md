@@ -27,9 +27,9 @@ python tema-02-machine-learning/scripts/execute_notebooks.py --target 02-02 --mo
 
 | Experimento | Modelo | Parámetros | Mejor época | Mejor val. accuracy | Test accuracy | Precisión | Recall | F1 | Tiempo |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `neuron_mnist_0_vs_1` | neuron | 785 | 15 | 99.80 % | 99.95 % | 99.91 % | 100.00 % | 99.96 % | 8.07 s |
-| `neuron_mnist_5_vs_6` | neuron | 785 | 15 | 97.75 % | 97.89 % | 97.72 % | 98.23 % | 97.97 % | 17.58 s |
-| `mlp_mnist_5_vs_6` | mlp | 100,609 | 11 | 99.38 % | 99.08 % | 98.96 % | 99.27 % | 99.11 % | 28.08 s |
+| `neuron_mnist_0_vs_1` | neuron | 785 | 15 | 99.80 % | 99.95 % | 99.91 % | 100.00 % | 99.96 % | 8.60 s |
+| `neuron_mnist_5_vs_6` | neuron | 785 | 15 | 97.75 % | 97.89 % | 97.72 % | 98.23 % | 97.97 % | 9.08 s |
+| `mlp_mnist_5_vs_6` | mlp | 100,609 | 11 | 99.38 % | 99.08 % | 98.96 % | 99.27 % | 99.11 % | 14.62 s |
 
 Los valores proceden directamente de `experiments/full/*/metrics.json`.
 
