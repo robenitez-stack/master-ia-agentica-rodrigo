@@ -4,8 +4,8 @@ Este módulo desarrolla seis notebooks canónicos sobre MLP y CNN con MNIST y CI
 
 | Orden | Notebook | Framework | Estado |
 |---:|---|---|---|
-| 01 | `01_mlp_mnist_pytorch.ipynb` | PyTorch | En desarrollo |
-| 02 | `02_cnn_mnist_keras.ipynb` | TensorFlow/Keras | Pendiente |
+| 01 | `01_mlp_mnist_pytorch.ipynb` | PyTorch | Validado en modo fast; full pendiente |
+| 02 | `02_cnn_mnist_keras.ipynb` | TensorFlow/Keras | Validado en modo fast; full pendiente |
 | 03 | `03_cnn_mnist_pytorch_base.ipynb` | PyTorch | Pendiente |
 | 04 | `04_cnn_cifar10_keras.ipynb` | TensorFlow/Keras | Pendiente |
 | 05 | `05_cnn_mnist_pytorch_mejorada.ipynb` | PyTorch | Pendiente |

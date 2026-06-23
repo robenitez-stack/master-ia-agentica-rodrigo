@@ -1,4 +1,4 @@
-# Las versiones se fijarán después de validar la instalación en Python 3.10.
-tensorflow
-keras
-
+# Versiones CPU verificadas en Windows y Python 3.10
+tensorflow==2.15.1
+tensorflow-intel==2.15.1
+keras==2.15.0
