@@ -1,4 +1,3 @@
-# INSTRUCCIÓN MAESTRA CONSOLIDADA PARA CODEX
 ## Tema 2 — Introducción al Machine Learning, Deep Learning y LLMs
 ### Versión modular actualizada
 
