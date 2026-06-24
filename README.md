@@ -5,7 +5,7 @@ Repositorio de Rodrigo Benítez para los trabajos prácticos del Máster en Inge
 ## Estructura
 
 - `tema-01-entorno/`: preparación y ejercicios del entorno.
-- `tema-02-machine-learning/`: cuatro módulos de Machine Learning, Deep Learning, visión artificial y NLP.
+- `tema-02-machine-learning/`: cinco módulos de Machine Learning, Deep Learning, visión artificial, NLP y mini-GPT.
 - `datasets/`: datos locales de trabajo (los archivos pesados no se versionan).
 - `docs/`: documentación y guías del proyecto.
 
@@ -27,6 +27,7 @@ En VS Code, selecciona el intérprete de `.venv` y el kernel **Python - Master I
 | 2 | Redes neuronales desde cero con NumPy y PyTorch | Ejecutado y validado en modo `full` |
 | 3 | MLP, CNN, MNIST y CIFAR-10 con PyTorch y Keras | Ejecutado y validado en modo `full` |
 | 4 | Tokenización, embeddings, similitud coseno, GloVe y PCA | Ejecutado y validado |
+| 5 | Mini-GPT decoder-only implementado manualmente con PyTorch | Implementado y validado |
 
 La documentación completa, los notebooks y los resultados reproducibles están en [`tema-02-machine-learning/`](tema-02-machine-learning/README.md).
 

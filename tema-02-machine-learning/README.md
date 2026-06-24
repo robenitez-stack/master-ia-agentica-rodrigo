@@ -10,9 +10,9 @@ Este directorio organiza de forma progresiva los contenidos del Tema 2 del Mást
 | 2 | Fundamentos de Deep Learning y redes neuronales | Completado y validado en modo full |
 | 3 | MLP, CNN y visión artificial | Completado y validado en modo full |
 | 4 | Fundamentos de NLP | Completado y validado |
-| 5 | Introducción a los LLMs | Pendiente de materiales |
+| 5 | Mini-GPT decoder-only desde cero | Implementado y validado |
 
-## Resumen de los cuatro módulos desarrollados
+## Resumen de los cinco módulos desarrollados
 
 ### Módulo 1 — Introducción al Machine Learning
 
@@ -94,6 +94,22 @@ Puntos trabajados:
 - Proyección de embeddings mediante `PCA(n_components=2)`.
 - Caché de modelos, ejecución offline posterior y errores accionables.
 - Conexión conceptual con RNN, LSTM, atención y Transformers, sin implementarlos.
+
+### Módulo 5 — Mini-GPT desde cero
+
+Proyecto Python instalable en `05-mini-gpt-desde-cero/`:
+
+- Tokenización reversible a nivel de carácter.
+- Batches auto-supervisados para predicción del siguiente token.
+- Embeddings de token y posición.
+- Q, K y V implementados explícitamente.
+- Self-attention causal y máscara triangular.
+- Multi-head attention, feed-forward, residuales y LayerNorm pre-norm.
+- Entrenamiento con AdamW, evaluación y checkpoints.
+- Generación greedy, sampling, temperature, top-k y top-p.
+- Visualizaciones de pérdidas, atención, probabilidades y embeddings.
+- CLI para descargar corpus, entrenar, generar e inspeccionar.
+- Pruebas offline y smoke training en CPU.
 
 ## Criterios comunes aplicados
 

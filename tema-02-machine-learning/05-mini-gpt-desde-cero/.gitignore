@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.pytest-tmp/
+.ruff_cache/
+*.pyc
+*.egg-info/
+pytest-cache-files-*/
+data/*.txt
+runs/
+checkpoints/
+*.pt
+*.pth
+.ipynb_checkpoints/
+.env
+
+!data/.gitkeep
