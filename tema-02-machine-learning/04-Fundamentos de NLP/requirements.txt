@@ -1,0 +1,21 @@
+# Demo Tema 2 · Sesión 4 — Fundamentos de NLP
+# Compatible con Python 3.10+ y MacBook Apple Silicon (M1/M2/M3/M4).
+
+# Entorno interactivo usado por los comandos del README
+jupyterlab>=4.2,<5
+ipywidgets>=8,<9
+
+# Tokenización GPT-4
+tiktoken>=0.7,<1
+
+# Embeddings de frase (basados en BERT)
+sentence-transformers>=3,<6
+
+# Embeddings de palabra clásicos (GloVe, Word2Vec)
+gensim>=4.3.3,<5
+scipy>=1.10,<1.14
+
+# Visualización y reducción de dimensiones
+scikit-learn>=1.4,<2
+matplotlib>=3.8,<4
+numpy>=1.26,<2

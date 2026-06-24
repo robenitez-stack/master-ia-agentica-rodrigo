@@ -3,8 +3,10 @@
 
 # Instrucciones internas para asistentes de código
 AGENTS.md
+AGENTS*.md
 INSTRUCCION*CODEX*.md
 *CODEX*INSTRUCCION*.md
+PROMPT*CODEX*.md
 
 # Model weights and checkpoints (regenerable and potentially large)
 **/checkpoints/

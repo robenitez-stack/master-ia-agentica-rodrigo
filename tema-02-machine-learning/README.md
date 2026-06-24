@@ -9,7 +9,7 @@ Este directorio organiza de forma progresiva los contenidos del Tema 2 del Mást
 | 1 | Introducción al Machine Learning | Completado; ubicación histórica protegida |
 | 2 | Fundamentos de Deep Learning y redes neuronales | Completado y validado en modo full |
 | 3 | MLP, CNN y visión artificial | Completado y validado en modo full |
-| 4 | Transformers y procesamiento de lenguaje natural | Pendiente de materiales |
+| 4 | Fundamentos de NLP | Completado y validado |
 | 5 | Introducción a los LLMs | Pendiente de materiales |
 
 ## Módulo 1 — ubicación histórica
@@ -23,6 +23,7 @@ Estos notebooks permanecen intactos en la raíz del Tema 2:
 
 - Módulo 2: dos notebooks sobre neuronas binarias, NumPy, PyTorch y autograd.
 - Módulo 3: seis notebooks sobre MLP y CNN con MNIST y CIFAR-10, usando PyTorch y TensorFlow/Keras.
+- Módulo 4: demo reproducible de tokenización, embeddings de frase, similitud coseno, analogías GloVe y visualización PCA.
 - Los originales se conservan en `input_notebooks/` y se verifican mediante SHA-256.
 
 ## Instalación
