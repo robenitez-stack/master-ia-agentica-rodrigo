@@ -5,7 +5,7 @@ Repositorio de Rodrigo Benítez para los trabajos prácticos del Máster en Inge
 ## Estructura
 
 - `tema-01-entorno/`: preparación y ejercicios del entorno.
-- `tema-02-machine-learning/`: notebooks de clasificación supervisada y no supervisada.
+- `tema-02-machine-learning/`: cuatro módulos de Machine Learning, Deep Learning, visión artificial y NLP.
 - `datasets/`: datos locales de trabajo (los archivos pesados no se versionan).
 - `docs/`: documentación y guías del proyecto.
 
@@ -19,10 +19,16 @@ python -m pip install -r requirements.txt
 
 En VS Code, selecciona el intérprete de `.venv` y el kernel **Python - Master IA Agentica**.
 
-## Notebooks
+## Tema 2 — módulos desarrollados
 
-1. `tema-02-machine-learning/1_supervised_classification_model.ipynb`
-2. `tema-02-machine-learning/2_unsupervised_classification_model.ipynb`
+| Módulo | Contenido | Estado |
+|---|---|---|
+| 1 | Clasificación supervisada y no supervisada | Completado y protegido |
+| 2 | Redes neuronales desde cero con NumPy y PyTorch | Ejecutado y validado en modo `full` |
+| 3 | MLP, CNN, MNIST y CIFAR-10 con PyTorch y Keras | Ejecutado y validado en modo `full` |
+| 4 | Tokenización, embeddings, similitud coseno, GloVe y PCA | Ejecutado y validado |
+
+La documentación completa, los notebooks y los resultados reproducibles están en [`tema-02-machine-learning/`](tema-02-machine-learning/README.md).
 
 ## Resultados reproducidos
 
@@ -33,4 +39,4 @@ Los dos notebooks fueron ejecutados de principio a fin con Python 3.10:
 
 La etiqueta real del dataset Wine se mantiene fuera del entrenamiento y se utiliza únicamente en la evaluación externa final.
 
-El script `scripts/build_notebooks.py` permite reconstruir las versiones limpias de ambos notebooks; después deben ejecutarse para regenerar sus resultados y gráficos.
+Los módulos posteriores incorporan separación `train/validation/test`, modos de ejecución `fast` y `full`, métricas, historiales, matrices de confusión, ejemplos de predicción y documentación reproducible.

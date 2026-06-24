@@ -12,6 +12,101 @@ Este directorio organiza de forma progresiva los contenidos del Tema 2 del Mást
 | 4 | Fundamentos de NLP | Completado y validado |
 | 5 | Introducción a los LLMs | Pendiente de materiales |
 
+## Resumen de los cuatro módulos desarrollados
+
+### Módulo 1 — Introducción al Machine Learning
+
+Notebooks históricos protegidos:
+
+- `1_supervised_classification_model.ipynb`: clasificación supervisada con Adult y XGBoost.
+- `2_unsupervised_classification_model.ipynb`: clasificación no supervisada con Wine, UMAP y HDBSCAN.
+
+Puntos trabajados:
+
+- Preparación, exploración y transformación de datos.
+- Separación entre entrenamiento y evaluación.
+- Métricas de clasificación: accuracy, F1 y ROC-AUC.
+- Reducción de dimensionalidad y clustering.
+- Evaluación externa mediante silhouette, ARI y NMI.
+- Protección de ambos notebooks mediante manifiesto SHA-256.
+
+Resultados principales:
+
+| Notebook | Resultado |
+|---|---|
+| Supervisado | ROC-AUC 0.9318, accuracy 0.8788 y F1 0.7247 |
+| No supervisado | 3 clústeres, silhouette 0.7302, ARI 0.8025 y NMI 0.7955 |
+
+### Módulo 2 — Fundamentos de Deep Learning
+
+Notebooks canónicos:
+
+- `02-deep-learning-redes-neuronales/notebooks/01_neurona_manual_numpy_mnist.ipynb`
+- `02-deep-learning-redes-neuronales/notebooks/02_red_neuronal_desde_cero_pytorch.ipynb`
+
+Puntos trabajados:
+
+- Neurona binaria implementada manualmente con NumPy.
+- Función sigmoide, pérdida, gradientes y descenso de gradiente.
+- Implementación equivalente con PyTorch y autograd.
+- MLP para clasificación binaria de MNIST.
+- Comparación entre implementación manual, neurona PyTorch y red multicapa.
+- Ejecuciones `fast` para comprobación técnica y `full` para resultados académicos.
+
+### Módulo 3 — Redes multicapas, convolucionales y visión artificial
+
+Se desarrollaron seis notebooks con MNIST y CIFAR-10:
+
+- MLP de MNIST con PyTorch.
+- CNN de MNIST con TensorFlow/Keras.
+- CNN base de MNIST con PyTorch.
+- CNN de CIFAR-10 con TensorFlow/Keras.
+- CNN mejorada de MNIST con PyTorch.
+- CNN de CIFAR-10 con PyTorch.
+
+Puntos trabajados:
+
+- División reproducible en entrenamiento, validación y test.
+- Normalización y aumento de datos.
+- MLP y arquitecturas convolucionales.
+- Dropout, batch normalization, scheduler y parada temprana.
+- Selección del mejor checkpoint mediante validación.
+- Evaluación final única sobre test.
+- Accuracy, precisión, recall, F1 macro y balanced accuracy.
+- Curvas de aprendizaje, matrices de confusión y ejemplos correctos/incorrectos.
+
+### Módulo 4 — Fundamentos de NLP
+
+Material principal:
+
+- `04-Fundamentos de NLP/nlp-fundamentos.ipynb`
+- `04-Fundamentos de NLP/1 - Diapositivas_Tema2_Clase4.pdf`
+
+Puntos trabajados:
+
+- Tokenización y subwords con `tiktoken`.
+- Comparación entre palabras y tokens en español e inglés.
+- Embeddings de frases con `all-MiniLM-L6-v2`.
+- Matriz de similitud coseno y heatmap.
+- Verificación de simetría, dimensiones, valores finitos y diagonal.
+- Analogías semánticas con `glove-wiki-gigaword-100`.
+- Manejo de términos fuera del vocabulario.
+- Proyección de embeddings mediante `PCA(n_components=2)`.
+- Caché de modelos, ejecución offline posterior y errores accionables.
+- Conexión conceptual con RNN, LSTM, atención y Transformers, sin implementarlos.
+
+## Criterios comunes aplicados
+
+- Python 3.10 y ejecución local en CPU.
+- Entorno virtual y kernel de Jupyter documentados.
+- Dependencias declaradas y verificadas con `pip check`.
+- Datasets y modelos grandes excluidos del repositorio.
+- Separación estricta entre `train`, `validation` y `test`.
+- Resultados `fast` identificados como no publicables.
+- Resultados `full` acompañados por métricas y artefactos.
+- Notebooks originales conservados y verificados mediante SHA-256.
+- Instrucciones internas de Codex y archivos `AGENTS` excluidos de Git.
+
 ## Módulo 1 — ubicación histórica
 
 Estos notebooks permanecen intactos en la raíz del Tema 2:
