@@ -1,0 +1,33 @@
+{
+  "experiment_id": "cifar10_cnn",
+  "task": "multiclass_classification",
+  "classes": [
+    "avión",
+    "automóvil",
+    "pájaro",
+    "gato",
+    "ciervo",
+    "perro",
+    "rana",
+    "caballo",
+    "barco",
+    "camión"
+  ],
+  "train_samples": 45000,
+  "validation_samples": 5000,
+  "test_samples": 10000,
+  "epochs_or_iterations_completed": 24,
+  "best_epoch_or_iteration": 20,
+  "parameters": 591658,
+  "training_seconds": 999.8850253000273,
+  "best_validation_accuracy": 0.7653999924659729,
+  "test_accuracy": 0.7678,
+  "test_precision": 0.7711662487607021,
+  "test_recall": 0.7678,
+  "test_f1": 0.7650977707719356,
+  "test_macro_precision": 0.7711662487607021,
+  "test_macro_recall": 0.7678,
+  "test_macro_f1": 0.7650977707719356,
+  "test_balanced_accuracy": 0.7678,
+  "test_specificity": null
+}

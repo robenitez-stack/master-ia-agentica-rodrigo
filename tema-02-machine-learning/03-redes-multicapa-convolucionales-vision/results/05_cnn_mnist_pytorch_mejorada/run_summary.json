@@ -1,0 +1,20 @@
+{
+  "notebook_id": "03-05",
+  "source_notebook": "3_red_convolucional_mnist_mejorada.ipynb",
+  "canonical_notebook": "05_cnn_mnist_pytorch_mejorada.ipynb",
+  "module": "03-redes-multicapa-convolucionales-vision",
+  "status": "COMPLETED",
+  "run_mode": "full",
+  "publishable": true,
+  "seed": 42,
+  "device": "cpu",
+  "frameworks": [
+    "pytorch"
+  ],
+  "dataset": "MNIST",
+  "run_timestamp_utc": "2026-06-24T04:04:09.123726+00:00",
+  "git_commit": "4f941bc039a0588f28bf035acabdb1870dcb709e",
+  "experiments": [
+    "mnist_cnn_improved"
+  ]
+}

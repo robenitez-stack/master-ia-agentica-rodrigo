@@ -1,0 +1,20 @@
+{
+  "notebook_id": "03-06",
+  "source_notebook": "4_red_convolucional_cifar10.ipynb",
+  "canonical_notebook": "06_cnn_cifar10_pytorch.ipynb",
+  "module": "03-redes-multicapa-convolucionales-vision",
+  "status": "COMPLETED",
+  "run_mode": "full",
+  "publishable": true,
+  "seed": 42,
+  "device": "cpu",
+  "frameworks": [
+    "pytorch"
+  ],
+  "dataset": "CIFAR-10",
+  "run_timestamp_utc": "2026-06-24T12:17:32.749147+00:00",
+  "git_commit": "4f941bc039a0588f28bf035acabdb1870dcb709e",
+  "experiments": [
+    "cifar10_cnn_pytorch"
+  ]
+}

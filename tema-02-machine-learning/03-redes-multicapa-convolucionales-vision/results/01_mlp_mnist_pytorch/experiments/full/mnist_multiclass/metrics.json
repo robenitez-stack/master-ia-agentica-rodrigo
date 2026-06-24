@@ -1,0 +1,33 @@
+{
+  "experiment_id": "mnist_multiclass",
+  "task": "multiclass_classification",
+  "classes": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9"
+  ],
+  "train_samples": 51000,
+  "validation_samples": 9000,
+  "test_samples": 10000,
+  "epochs_or_iterations_completed": 15,
+  "best_epoch_or_iteration": 9,
+  "parameters": 235146,
+  "training_seconds": 37.78737129998626,
+  "best_validation_accuracy": 0.9778888888888889,
+  "test_accuracy": 0.9789,
+  "test_precision": 0.9787171987346698,
+  "test_recall": 0.9787223180042336,
+  "test_f1": 0.9786771541906871,
+  "test_macro_precision": 0.9787171987346698,
+  "test_macro_recall": 0.9787223180042336,
+  "test_macro_f1": 0.9786771541906871,
+  "test_balanced_accuracy": 0.9787223180042336,
+  "test_specificity": null
+}

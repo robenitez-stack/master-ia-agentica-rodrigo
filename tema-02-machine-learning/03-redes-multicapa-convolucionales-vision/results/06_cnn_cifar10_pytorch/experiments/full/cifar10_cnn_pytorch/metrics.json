@@ -1,0 +1,33 @@
+{
+  "experiment_id": "cifar10_cnn_pytorch",
+  "task": "multiclass_classification",
+  "classes": [
+    "avión",
+    "automóvil",
+    "pájaro",
+    "gato",
+    "ciervo",
+    "perro",
+    "rana",
+    "caballo",
+    "barco",
+    "camión"
+  ],
+  "train_samples": 45000,
+  "validation_samples": 5000,
+  "test_samples": 10000,
+  "epochs_or_iterations_completed": 40,
+  "best_epoch_or_iteration": 38,
+  "parameters": 815530,
+  "training_seconds": 5946.311376900005,
+  "best_validation_accuracy": 0.8814,
+  "test_accuracy": 0.8837,
+  "test_precision": 0.884564550368259,
+  "test_recall": 0.8836999999999999,
+  "test_f1": 0.8827767431035308,
+  "test_macro_precision": 0.884564550368259,
+  "test_macro_recall": 0.8836999999999999,
+  "test_macro_f1": 0.8827767431035308,
+  "test_balanced_accuracy": 0.8836999999999999,
+  "test_specificity": null
+}

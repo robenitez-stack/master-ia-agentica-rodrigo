@@ -7,8 +7,8 @@ Este directorio organiza de forma progresiva los contenidos del Tema 2 del Mást
 | Módulo | Contenido | Estado |
 |---|---|---|
 | 1 | Introducción al Machine Learning | Completado; ubicación histórica protegida |
-| 2 | Fundamentos de Deep Learning y redes neuronales | En desarrollo |
-| 3 | MLP, CNN y visión artificial | Pendiente de implementación |
+| 2 | Fundamentos de Deep Learning y redes neuronales | Completado y validado en modo full |
+| 3 | MLP, CNN y visión artificial | Completado y validado en modo full |
 | 4 | Transformers y procesamiento de lenguaje natural | Pendiente de materiales |
 | 5 | Introducción a los LLMs | Pendiente de materiales |
 
@@ -80,3 +80,22 @@ Los dos notebooks del módulo 2 están desarrollados, ejecutados de principio a 
 
 Fuente: archivos `run_summary.json` y `experiments/full/*/metrics.json`. Los smoke tests `fast` no se publican como resultados académicos.
 <!-- MODULE2_RESULTS:END -->
+
+<!-- MODULE3_RESULTS:START -->
+## Estado del módulo 3
+
+Los seis notebooks del módulo 3 están desarrollados, ejecutados de principio a fin en modo `full` y validados en CPU. Cada ejecución conserva métricas, historial, reporte por clase, curvas de aprendizaje, matriz de confusión y ejemplos de predicción.
+
+## Resultados full del módulo 3
+
+| Notebook | Dataset | Framework/modelo | Parámetros | Test accuracy | Test F1 | Tiempo CPU |
+|---|---|---|---:|---:|---:|---:|
+| 03-01 | MNIST | PyTorch MLP | 235,146 | 97.89 % | 97.87 % | 37.79 s |
+| 03-02 | MNIST | Keras CNN | 422,026 | 99.28 % | 99.27 % | 210.15 s |
+| 03-03 | MNIST | PyTorch CNN base | 31,530 | 97.98 % | 97.97 % | 88.07 s |
+| 03-04 | CIFAR-10 | Keras CNN | 591,658 | 76.78 % | 76.51 % | 999.89 s |
+| 03-05 | MNIST | PyTorch CNN mejorada | 468,458 | 99.60 % | 99.60 % | 1,387.56 s |
+| 03-06 | CIFAR-10 | PyTorch CNN | 815,530 | 88.37 % | 88.28 % | 5,946.31 s |
+
+Fuente: `03-redes-multicapa-convolucionales-vision/results/*/run_summary.json` y `experiments/full/*/metrics.json`. Los resultados `fast` se conservan solamente como evidencia técnica.
+<!-- MODULE3_RESULTS:END -->

@@ -1,0 +1,21 @@
+{
+  "notebook_id": "03-02",
+  "source_notebook": "2_convolutional_neural_network_model.ipynb",
+  "canonical_notebook": "02_cnn_mnist_keras.ipynb",
+  "module": "03-redes-multicapa-convolucionales-vision",
+  "status": "COMPLETED",
+  "run_mode": "full",
+  "publishable": true,
+  "seed": 42,
+  "device": "cpu",
+  "frameworks": [
+    "tensorflow",
+    "keras"
+  ],
+  "dataset": "MNIST",
+  "run_timestamp_utc": "2026-06-24T03:03:08.719914+00:00",
+  "git_commit": "4f941bc039a0588f28bf035acabdb1870dcb709e",
+  "experiments": [
+    "mnist_cnn"
+  ]
+}
