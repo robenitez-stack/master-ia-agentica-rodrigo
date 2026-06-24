@@ -383,11 +383,37 @@ def validate_nb03_05(mode: str) -> list[str]:
     return errors
 
 
+def validate_nb03_06(mode: str) -> list[str]:
+    module=TEMA2/"03-redes-multicapa-convolucionales-vision";result=module/"results"/"06_cnn_cifar10_pytorch"
+    canonical=module/"notebooks"/"06_cnn_cifar10_pytorch.ipynb"
+    executed=result/("notebook_executed.fast.ipynb" if mode=="fast" else "notebook_executed.ipynb")
+    summary_path=result/("run_summary.fast.json" if mode=="fast" else "run_summary.json");errors=validate_notebook(canonical,False)
+    if not executed.exists():errors.append(f"Falta notebook ejecutado: {executed}")
+    else:errors.extend(validate_notebook(executed,True))
+    if not summary_path.exists():return errors+[f"Falta resumen: {summary_path}"]
+    summary=json.loads(summary_path.read_text(encoding="utf-8"))
+    if summary.get("notebook_id")!="03-06":errors.append("notebook_id inconsistente en 03-06")
+    if summary.get("run_mode")!=mode:errors.append("run_mode inconsistente en 03-06")
+    if summary.get("publishable") is not (mode=="full"):errors.append("publishable inconsistente en 03-06")
+    if summary.get("experiments")!=["cifar10_cnn_pytorch"]:errors.append("03-06 debe registrar cifar10_cnn_pytorch")
+    exp=result/"experiments"/mode/"cifar10_cnn_pytorch"
+    required={"metrics.json","training_history.csv","classification_report.csv","learning_curves.png","confusion_matrix.png","sample_predictions.png","misclassified_examples.png"}
+    missing=[x for x in required if not (exp/x).exists()]
+    if missing:errors.append(f"Artefactos ausentes en 03-06: {missing}")
+    else:
+        metrics=json.loads((exp/"metrics.json").read_text(encoding="utf-8"))
+        if len(metrics.get("classes",[]))!=10:errors.append("03-06 debe registrar diez clases")
+        for key in ["test_accuracy","test_precision","test_recall","test_f1"]:
+            value=metrics.get(key)
+            if value is None or not 0<=value<=1:errors.append(f"Métrica inválida 03-06.{key}: {value}")
+    return errors
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--notebook-id",
-        choices=["02-01", "02-02", "03-01", "03-02", "03-03", "03-04", "03-05"],
+        choices=["02-01", "02-02", "03-01", "03-02", "03-03", "03-04", "03-05", "03-06"],
         required=True,
     )
     parser.add_argument("--mode", choices=["fast", "full"], required=True)
@@ -414,8 +440,10 @@ def main() -> int:
         errors.extend(validate_nb03_03(args.mode))
     elif args.notebook_id == "03-04":
         errors.extend(validate_nb03_04(args.mode))
-    else:
+    elif args.notebook_id == "03-05":
         errors.extend(validate_nb03_05(args.mode))
+    else:
+        errors.extend(validate_nb03_06(args.mode))
 
     if errors:
         print("VALIDATION_FAILED")

@@ -1,0 +1,141 @@
+from pathlib import Path
+import nbformat as nbf
+TEMA2=Path(__file__).resolve().parents[1]
+OUTPUT=TEMA2/"03-redes-multicapa-convolucionales-vision"/"notebooks"/"06_cnn_cifar10_pytorch.ipynb"
+def md(x):return nbf.v4.new_markdown_cell(x.strip())
+def code(x):return nbf.v4.new_code_cell(x.strip())
+cells=[
+md("""# CNN CIFAR-10 con PyTorch
+
+Corrige la fuga metodológica del original: train se divide en train/validation; scheduler, checkpoint y early stopping usan validation; test se evalúa una sola vez al final. Augmentation solo se aplica a train.
+
+> Dependencias: `requirements/common.txt` y `requirements/pytorch.txt`."""),
+md("## 1. Configuración y dispositivo"),
+code(r"""
+import copy,hashlib,io,json,os,platform,random,subprocess,sys,time,urllib.request
+from datetime import datetime,timezone
+from pathlib import Path
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import pyarrow.parquet as pq
+import torch
+import torch.nn as nn
+from PIL import Image
+from sklearn.metrics import ConfusionMatrixDisplay,accuracy_score,classification_report,confusion_matrix,f1_score,precision_score,recall_score
+from sklearn.model_selection import train_test_split
+from torch.utils.data import DataLoader,Dataset
+from torchvision import transforms
+RUN_MODE=os.getenv("RUN_MODE","full").lower()
+if RUN_MODE not in {"fast","full"}:raise ValueError("RUN_MODE inválido")
+SEED=42;random.seed(SEED);np.random.seed(SEED);torch.manual_seed(SEED);torch.use_deterministic_algorithms(True,warn_only=True)
+DEVICE=torch.device("cuda" if torch.cuda.is_available() else "mps" if hasattr(torch.backends,"mps") and torch.backends.mps.is_available() else "cpu")
+def root():
+ c=Path.cwd().resolve()
+ for p in [c,c/"tema-02-machine-learning",*c.parents]:
+  if p.name=="tema-02-machine-learning" and (p/".tema2-root").exists():return p
+ raise FileNotFoundError
+ROOT=root();DATA=ROOT/".data"/"cifar10";RESULTS=ROOT/"03-redes-multicapa-convolucionales-vision"/"results"/"06_cnn_cifar10_pytorch";RUN=RESULTS/"experiments"/RUN_MODE/"cifar10_cnn_pytorch"
+DATA.mkdir(parents=True,exist_ok=True);RUN.mkdir(parents=True,exist_ok=True);PUBLISHABLE=RUN_MODE=="full"
+CLASSES=["avión","automóvil","pájaro","gato","ciervo","perro","rana","caballo","barco","camión"]
+print(RUN_MODE,PUBLISHABLE,DEVICE,torch.__version__)
+"""),
+md("## 2. CIFAR-10 verificado, normalización y augmentation"),
+code(r"""
+FILES={"train.parquet":("https://huggingface.co/datasets/uoft-cs/cifar10/resolve/main/plain_text/train-00000-of-00001.parquet?download=true","8428b53a88a11ac374111006708df51469e315a22ac6d66470afd9c78d2ae883"),"test.parquet":("https://huggingface.co/datasets/uoft-cs/cifar10/resolve/main/plain_text/test-00000-of-00001.parquet?download=true","841389e6f2d64f28bf17310e430aebac20ec3ba611a3c5e231dc93c645ce84de")}
+def sha(p):
+ h=hashlib.sha256()
+ with p.open("rb") as f:
+  for c in iter(lambda:f.read(1048576),b""):h.update(c)
+ return h.hexdigest()
+def ensure(n,u,e):
+ p=DATA/n
+ if not p.exists():t=p.with_suffix(".tmp");urllib.request.urlretrieve(u,t);t.replace(p)
+ if sha(p)!=e:raise ValueError("Hash inválido")
+ return p
+def load(p):
+ rows=pq.read_table(p,columns=["img","label"]).to_pylist()
+ return np.stack([np.asarray(Image.open(io.BytesIO(r["img"]["bytes"])).convert("RGB"),dtype=np.uint8) for r in rows]),np.asarray([r["label"] for r in rows])
+paths={n:ensure(n,*v) for n,v in FILES.items()};Xa,ya=load(paths["train.parquet"]);Xt,yt=load(paths["test.parquet"])
+Xtr,Xv,ytr,yv=train_test_split(Xa,ya,test_size=.1,stratify=ya,random_state=SEED)
+def limit(X,y,n,s):
+ if len(y)<=n:return X,y
+ a,_,b,_=train_test_split(X,y,train_size=n,stratify=y,random_state=s);return a,b
+if RUN_MODE=="fast":Xtr,ytr=limit(Xtr,ytr,8000,SEED);Xv,yv=limit(Xv,yv,1800,SEED+1);Xt,yt=limit(Xt,yt,2000,SEED+2)
+mean=(.4914,.4822,.4465);std=(.247,.2435,.2616)
+train_tf=transforms.Compose([transforms.RandomCrop(32,padding=4),transforms.RandomHorizontalFlip(),transforms.ToTensor(),transforms.Normalize(mean,std)])
+eval_tf=transforms.Compose([transforms.ToTensor(),transforms.Normalize(mean,std)])
+class DS(Dataset):
+ def __init__(self,X,y,tf):self.X,self.y,self.tf=X,y,tf
+ def __len__(self):return len(self.y)
+ def __getitem__(self,i):return self.tf(Image.fromarray(self.X[i])),int(self.y[i])
+tr,va,te=DS(Xtr,ytr,train_tf),DS(Xv,yv,eval_tf),DS(Xt,yt,eval_tf)
+def loader(ds,shuffle,s):return DataLoader(ds,batch_size=128,shuffle=shuffle,generator=torch.Generator().manual_seed(s),num_workers=0,pin_memory=DEVICE.type=="cuda")
+print(len(tr),len(va),len(te))
+"""),
+md("## 3. Arquitectura tipo VGG reducida"),
+code(r"""
+class CIFARCNN(nn.Module):
+ def __init__(self):
+  super().__init__()
+  def block(a,b):return nn.Sequential(nn.Conv2d(a,b,3,padding=1),nn.BatchNorm2d(b),nn.ReLU(),nn.Conv2d(b,b,3,padding=1),nn.BatchNorm2d(b),nn.ReLU(),nn.MaxPool2d(2),nn.Dropout(.25))
+  self.features=nn.Sequential(block(3,32),block(32,64),block(64,128))
+  self.head=nn.Sequential(nn.Flatten(),nn.Linear(128*4*4,256),nn.BatchNorm1d(256),nn.ReLU(),nn.Dropout(.5),nn.Linear(256,10))
+ def forward(self,x):return self.head(self.features(x))
+model=CIFARCNN().to(DEVICE);criterion=nn.CrossEntropyLoss();optimizer=torch.optim.Adam(model.parameters(),lr=1e-3,weight_decay=1e-4);scheduler=torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer,mode="min",factor=.5,patience=2,min_lr=1e-5)
+parameters=sum(p.numel() for p in model.parameters());print(parameters)
+"""),
+md("## 4. Entrenamiento controlado por validation"),
+code(r"""
+def evaluate(m,dl):
+ m.eval();ls=0.;true=[];pred=[]
+ with torch.no_grad():
+  for X,y in dl:X,y=X.to(DEVICE),y.to(DEVICE);z=m(X);ls+=criterion(z,y).item()*len(y);true.extend(y.cpu().numpy());pred.extend(z.argmax(1).cpu().numpy())
+ true,pred=np.asarray(true),np.asarray(pred);return {"loss":ls/len(true),"accuracy":accuracy_score(true,pred),"f1":f1_score(true,pred,average="macro"),"true":true,"pred":pred}
+epochs=2 if RUN_MODE=="fast" else 40;patience=6;wait=0;best=np.inf;best_epoch=0;state=None;hist=[];start=time.perf_counter()
+train_loader,val_loader=loader(tr,True,SEED),loader(va,False,SEED)
+for epoch in range(1,epochs+1):
+ model.train();loss_sum=0.;true=[];pred=[]
+ for X,y in train_loader:
+  X,y=X.to(DEVICE),y.to(DEVICE);optimizer.zero_grad(set_to_none=True);z=model(X);loss=criterion(z,y);loss.backward();optimizer.step()
+  loss_sum+=loss.item()*len(y);true.extend(y.cpu().numpy());pred.extend(z.argmax(1).detach().cpu().numpy())
+ val=evaluate(model,val_loader);scheduler.step(val["loss"])
+ row={"epoch":epoch,"train_loss":loss_sum/len(tr),"validation_loss":val["loss"],"train_accuracy":accuracy_score(true,pred),"validation_accuracy":val["accuracy"],"validation_macro_f1":val["f1"],"learning_rate":optimizer.param_groups[0]["lr"]};hist.append(row)
+ if val["loss"]<best:best=val["loss"];best_epoch=epoch;state=copy.deepcopy(model.state_dict());wait=0
+ else:wait+=1
+ print(epoch,row)
+ if RUN_MODE=="full" and wait>=patience:print("Early stopping");break
+seconds=time.perf_counter()-start;model.load_state_dict(state);history=pd.DataFrame(hist)
+"""),
+md("## 5. Evaluación única de test y análisis por clase"),
+code(r"""
+out=evaluate(model,loader(te,False,SEED));y_true,y_pred=out["true"],out["pred"];report=pd.DataFrame(classification_report(y_true,y_pred,target_names=CLASSES,output_dict=True,zero_division=0)).T
+metrics={"experiment_id":"cifar10_cnn_pytorch","task":"multiclass_classification","classes":CLASSES,"train_samples":len(tr),"validation_samples":len(va),"test_samples":len(te),"epochs_or_iterations_completed":len(history),"best_epoch_or_iteration":best_epoch,"parameters":parameters,"training_seconds":seconds,"best_validation_accuracy":float(history.loc[best_epoch-1,"validation_accuracy"]),"test_accuracy":accuracy_score(y_true,y_pred),"test_precision":precision_score(y_true,y_pred,average="macro",zero_division=0),"test_recall":recall_score(y_true,y_pred,average="macro",zero_division=0),"test_f1":f1_score(y_true,y_pred,average="macro",zero_division=0),"test_macro_precision":precision_score(y_true,y_pred,average="macro",zero_division=0),"test_macro_recall":recall_score(y_true,y_pred,average="macro",zero_division=0),"test_macro_f1":f1_score(y_true,y_pred,average="macro",zero_division=0),"test_balanced_accuracy":recall_score(y_true,y_pred,average="macro"),"test_specificity":None}
+(RUN/"metrics.json").write_text(json.dumps(metrics,indent=2,ensure_ascii=False),encoding="utf-8");history.to_csv(RUN/"training_history.csv",index=False);report.to_csv(RUN/"classification_report.csv");display(pd.Series(metrics,name="valor").to_frame());display(report)
+"""),
+code(r"""
+def save(fig,n):fig.savefig(RUN/n,dpi=140,bbox_inches="tight");plt.close(fig)
+fig,a=plt.subplots(1,2,figsize=(12,4));a[0].plot(history.epoch,history.train_loss,label="train");a[0].plot(history.epoch,history.validation_loss,label="validation");a[0].legend();a[1].plot(history.epoch,history.train_accuracy,label="train");a[1].plot(history.epoch,history.validation_accuracy,label="validation");a[1].legend();save(fig,"learning_curves.png")
+cm=confusion_matrix(y_true,y_pred);fig,ax=plt.subplots(figsize=(9,8));ConfusionMatrixDisplay(cm,display_labels=CLASSES).plot(cmap="Blues",ax=ax,values_format="d",xticks_rotation=45);save(fig,"confusion_matrix.png")
+def examples(ids,title,n):
+ fig,axs=plt.subplots(2,5,figsize=(12,5))
+ for ax in axs.ravel():ax.axis("off")
+ for ax,i in zip(axs.ravel(),ids[:10]):ax.imshow(Xt[i]);ax.set_title(f"R={CLASSES[y_true[i]]}\nP={CLASSES[y_pred[i]]}",fontsize=8);ax.axis("off")
+ fig.suptitle(title);save(fig,n)
+examples(np.flatnonzero(y_true==y_pred),"Correctos","sample_predictions.png");examples(np.flatnonzero(y_true!=y_pred),"Errores","misclassified_examples.png")
+"""),
+md("""## 6. Interpretación y tiempos esperados
+
+En CPU el modo `full` puede requerir varias horas; en GPU, decenas de minutos. El resultado `fast` no es publicable. Las confusiones gato/perro, automóvil/camión y avión/barco son semánticamente esperables."""),
+code(r"""
+try:commit=subprocess.run(["git","rev-parse","HEAD"],cwd=ROOT.parent,capture_output=True,text=True,check=True).stdout.strip()
+except Exception:commit="UNAVAILABLE"
+summary={"notebook_id":"03-06","source_notebook":"4_red_convolucional_cifar10.ipynb","canonical_notebook":"06_cnn_cifar10_pytorch.ipynb","module":"03-redes-multicapa-convolucionales-vision","status":"COMPLETED","run_mode":RUN_MODE,"publishable":PUBLISHABLE,"seed":SEED,"device":str(DEVICE),"frameworks":["pytorch"],"dataset":"CIFAR-10","run_timestamp_utc":datetime.now(timezone.utc).isoformat(),"git_commit":commit,"experiments":["cifar10_cnn_pytorch"]}
+(RESULTS/("run_summary.json" if RUN_MODE=="full" else "run_summary.fast.json")).write_text(json.dumps(summary,indent=2,ensure_ascii=False),encoding="utf-8");(RESULTS/("environment.txt" if RUN_MODE=="full" else "environment.fast.txt")).write_text(f"platform={platform.platform()}\npython={sys.version}\ntorch={torch.__version__}\ndevice={DEVICE}",encoding="utf-8");print(summary)
+"""),
+md("""## 7. Conclusiones
+
+La metodología ya no consulta test durante el desarrollo. La arquitectura y augmentation son un baseline académico; no constituyen una solución lista para producción en Marina del Sol.""")
+]
+metadata={"kernelspec":{"display_name":"Python - Master IA Agentica","language":"python","name":"master-ia-agentica"},"language_info":{"name":"python","version":"3.10"}}
+nb=nbf.v4.new_notebook(cells=cells,metadata=metadata);nbf.validate(nb);OUTPUT.parent.mkdir(parents=True,exist_ok=True);nbf.write(nb,OUTPUT);print(OUTPUT)
